@@ -95,14 +95,14 @@ Extensions (Ctrl+Shift+X) → Search "Python" (Microsoft) → Install
 Why? Adds IntelliSense (auto-complete), debugging, and interpreter selection.
 
 2. In VS Code terminal:
-python -m venv venv312
-.\venv312\Scripts\activate
+'python -m venv venv312
+.\venv312\Scripts\activate'
 
 Why? Creates/activates a virtual env — keeps packages local to this project.
 
 3. Upgrade pip and install:
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+'python -m pip install --upgrade pip
+pip install -r requirements.txt'
 
 4. Select Interpreter:
 Ctrl+Shift+P → "Python: Select Interpreter" → Choose the one in venv312\Scripts\python.exe
@@ -115,35 +115,36 @@ In classroom, it's free, pre-installed in VM; for APIs, uncomment paid lines
 
 Validation
 
-Run pip list — should show installed packages (e.g., langchain, langchain-ollama)
-Create test_install.py:
-import langchain
+Run 'pip list' — should show installed packages (e.g., langchain, langchain-ollama)
+Create 'test_install.py:'
+'import langchain
 print("LangChain imported successfully!")
+Run: python 'test_install.py'. If no errors, success.
 
 ## Step 4: Download and Set Up Local AI Models with Ollama
 **Purpose**: Provides free, local embeddings (text-to-vector) and LLMs (reasoning) — core to RAG without costs.
 ## Steps
 
 In terminal:
-Bash
-ollama pull nomic-embed-text
+'Bash
+ollama pull nomic-embed-text'
 
 Why? Nomic is a high-quality, open embedding model — turns text into vectors for similarity search in RAG, this will be the default for offline usage embeddings.
 
 Optional (for local reasoning):
-Bash
-ollama pull deepseek-coder:6.7b
+'Bash
+ollama pull deepseek-coder:6.7b'
 
 Why? DeepSeek-Coder is an open-source LLM optimized for code/reasoning — used for query analysis, answer synthesis in RAG for testing retention generation.
 
 Ensure Ollama runs:
-Bash
-ollama serve
+'Bash
+ollama serve'
 Or just use — it auto-starts in background.
 
 ## Validation
 
-Run ollama list — should show downloaded models
+Run 'ollama list' — should show downloaded models
 Test in code: Add to test_install.py:
 Python
 from langchain_ollama import OllamaEmbeddings
