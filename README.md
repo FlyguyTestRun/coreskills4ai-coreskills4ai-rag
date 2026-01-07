@@ -166,30 +166,6 @@ Run this once to create the folder structure (in terminal):
 
 ## Folder/Files and Purposes
 
-Path,Purpose
-config/,"Stores YAML configs (e.g., models.yaml)"
-config/models.yaml,"Central ""settings"" for models/providers. Easy to tweak without code changes. Classroom: Defaults to local Ollama. Pro: Switches to paid with API keys."
-core/,Core logic modules
-core/memory/,"Handles multi-tier memory (Letta for short/long-term, Zep for persistent)"
-core/ingestion/,"Processes documents (PDFs, videos, audio)"
-core/embeddings/,Converts text to vectors
-core/embeddings/embeddings_loader.py,"Smart loader — prefers free Nomic, falls back if paid unavailable. Prints bypass messages for education."
-core/reasoning/,AI decision layer
-core/reasoning/llm_loader.py,"Smart loader — tries paid LLMs, bypasses to local with messages. Teaches fallback logic."
-core/retrieval/,"Searches/retrieves docs (Haystack-ai pipelines, Chroma/FAISS)"
-core/schemas/,"Data models (e.g., Document, Conversation)"
-data/,"Stores raw/processed files, embeddings, memory"
-apps/,"User interfaces (desktop/Streamlit, api/REST)"
-tests/,"Quality checks (retrieval_quality, memory_stability)"
-scripts/,"Utility tools (e.g., reindex.py)"
-logs/,System logs
-models/,Downloaded Ollama models (optional storage)
-__init__.py files,"Make folders importable as Python modules (e.g., from core.ingestion import ...)"
-rag.py,Main script (placeholder) — ties everything together
-requirements.txt,Package list — reproduce env
-venv312/,Virtual env folder — isolates dependencies
-.env (create if needed),"Stores API keys (e.g., OPENAI_API_KEY=sk-...). Ignored in Git for privacy."
-
 Path/Purpose
 `config`/Stores YAML configs (e.g., models.yaml)
 `config/models.yaml`Central "settings" for models/providers. Easy to tweak without code changes. Classroom: Defaults to local Ollama. Pro: Switches to paid with API keys.
