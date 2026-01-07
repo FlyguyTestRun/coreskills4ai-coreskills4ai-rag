@@ -95,61 +95,61 @@ Extensions (Ctrl+Shift+X) → Search "Python" (Microsoft) → Install
 Why? Adds IntelliSense (auto-complete), debugging, and interpreter selection.
 
 2. In VS Code terminal:
-'python -m venv venv312
-.\venv312\Scripts\activate'
+`python -m venv venv312
+.\venv312\Scripts\activate`
 
 Why? Creates/activates a virtual env — keeps packages local to this project.
 
 3. Upgrade pip and install:
-'python -m pip install --upgrade pip
-pip install -r requirements.txt'
+`python -m pip install --upgrade pip
+pip install -r requirements.txt`
 
 4. Select Interpreter:
-Ctrl+Shift+P → "Python: Select Interpreter" → Choose the one in venv312\Scripts\python.exe
+Ctrl+Shift+P → "Python: Select Interpreter" → Choose the one in `venv312\Scripts\python.exe`
 Why? Tells VS Code to use this env for running code.
 
 File Purpose: requirements.txt
 A list of Python packages/versions needed
-Run pip install -r to replicate the exact setup
+`Run pip install -r` to replicate the exact setup
 In classroom, it's free, pre-installed in VM; for APIs, uncomment paid lines
 
 Validation
 
 Run 'pip list' — should show installed packages (e.g., langchain, langchain-ollama)
-Create 'test_install.py:'
-'import langchain
-print("LangChain imported successfully!")
-Run: python 'test_install.py'. If no errors, success.
+Create `test_install.py:`
+`import langchain
+print("LangChain imported successfully!")`
+Run: python 'test_install.py`. If no errors, success.
 
 ## Step 4: Download and Set Up Local AI Models with Ollama
 **Purpose**: Provides free, local embeddings (text-to-vector) and LLMs (reasoning) — core to RAG without costs.
 ## Steps
 
 In terminal:
-'Bash
-ollama pull nomic-embed-text'
+`Bash
+ollama pull nomic-embed-text`
 
 Why? Nomic is a high-quality, open embedding model — turns text into vectors for similarity search in RAG, this will be the default for offline usage embeddings.
 
 Optional (for local reasoning):
-'Bash
-ollama pull deepseek-coder:6.7b'
+`Bash
+ollama pull deepseek-coder:6.7b`
 
 Why? DeepSeek-Coder is an open-source LLM optimized for code/reasoning — used for query analysis, answer synthesis in RAG for testing retention generation.
 
 Ensure Ollama runs:
-'Bash
-ollama serve'
+`Bash
+ollama serve`
 Or just use — it auto-starts in background.
 
 ## Validation
 
-Run 'ollama list' — should show downloaded models
-Test in code: Add to test_install.py:
-Python
+Run `ollama list` — should show downloaded models
+Test in code: Add to `test_install.py:`
+`Python
 from langchain_ollama import OllamaEmbeddings
 embeddings = OllamaEmbeddings(model="nomic-embed-text")
-print(embeddings.embed_query("Test text"))  # Outputs a vector list
+print(embeddings.embed_query("Test text"))  # Outputs a vector list`
 
 Run it — if no errors and outputs numbers, good.
 
@@ -157,38 +157,38 @@ Run it — if no errors and outputs numbers, good.
 **Purpose**: Organizes code for modularity/teachability. Each folder has a specific role in the RAG pipeline.
 
 Run this once to create the folder structure (in terminal):
-Bash
+`Bash
 # Create directories
 "config","core\memory","core\ingestion","core\embeddings","core\retrieval","core\schemas","core\reasoning","data\raw","data\processed","data\embeddings","data\memory","apps\desktop","apps\api","tests\retrieval_quality","tests\memory_stability","scripts","logs","models" | ForEach-Object { New-Item -ItemType Directory -Force -Path $_ }
 
 # Create __init__.py files
-@("","core","core\memory","core\ingestion","core\embeddings","core\retrieval","core\schemas","core\reasoning") | ForEach-Object { New-Item -ItemType File -Force -Path "$_\__init__.py" }
+@("","core","core\memory","core\ingestion","core\embeddings","core\retrieval","core\schemas","core\reasoning") | ForEach-Object { New-Item -ItemType File -Force -Path "$_\__init__.py" }`
 
 ## Folder/Files and Purposes
 
 Path/Purpose
-config/Stores YAML configs (e.g., models.yaml)
-config/models.yamlCentral "settings" for models/providers. Easy to tweak without code changes. Classroom: Defaults to local Ollama. Pro: Switches to paid with API keys.
-core/Core logic modules
-core/memory/Handles multi-tier memory (Letta for short/long-term, Zep for persistent)
-core/ingestion/Processes documents (PDFs, videos, audio)
-core/embeddings/Converts text to vectors
-core/embeddings/embeddings_loader.pySmart loader — prefers free Nomic, falls back if paid unavailable. Prints bypass messages for education.
-core/reasoning/AI decision layer
-core/reasoning/llm_loader.pySmart loader — tries paid LLMs, bypasses to local with messages. Teaches fallback logic.
-core/retrieval/Searches/retrieves docs (Haystack-ai pipelines, Chroma/FAISS)
-core/schemas/Data models (e.g., Document, Conversation)
-data/Stores raw/processed files, embeddings, memory
-apps/User interfaces (desktop/Streamlit, api/REST)
-tests/Quality checks (retrieval_quality, memory_stability)
-scripts/Utility tools (e.g., reindex.py)
-logs/System logs
-models/Downloaded Ollama models (optional storage)
-__init__.py files/Make folders importable as Python modules (e.g., from core.ingestion import ...)
-rag.py/Main script (placeholder) — ties everything together
-requirements.txtPackage list — reproduce env
-venv312/Virtual env folder — isolates dependencies
-.env (create if needed)/Stores API keys (e.g., OPENAI_API_KEY=sk-...). Ignored in Git for privacy.
+`config`/Stores YAML configs (e.g., models.yaml)
+`config/models.yaml`Central "settings" for models/providers. Easy to tweak without code changes. Classroom: Defaults to local Ollama. Pro: Switches to paid with API keys.
+`core`/Core logic modules
+`core/memory/`/Handles multi-tier memory (Letta for short/long-term, Zep for persistent)
+`core/ingestion`/Processes documents (PDFs, videos, audio)
+`core/embeddings/`Converts text to vectors
+`core/embeddings/embeddings_loader.py`/Smart loader — prefers free Nomic, falls back if paid unavailable. Prints bypass messages for education.
+`core/reasoning/`/AI decision layer
+`core/reasoning/llm_loader.py`/Smart loader — tries paid LLMs, bypasses to local with messages. Teaches fallback logic.
+`core/retrieval/`/Searches/retrieves docs (Haystack-ai pipelines, Chroma/FAISS)
+`core/schemas/`/Data models (e.g., Document, Conversation)
+`data/Stores`/ raw/processed files, embeddings, memory
+`apps/User`/ interfaces (desktop/Streamlit, api/REST)
+`tests/Quality`/ checks (retrieval_quality, memory_stability)
+`scripts`/Utility tools (e.g., reindex.py)
+`logs`/System logs
+`models/`Downloaded Ollama models (optional storage)
+`__init__.py`/ files/Make folders importable as Python modules (e.g., from core.ingestion import ...)
+`rag.py`/Main script (placeholder) — ties everything together
+`requirements.txt`/Package list — reproduce env
+`venv312/`/Virtual env folder — isolates dependencies
+`.env` (create if needed)/Stores API keys (e.g., OPENAI_API_KEY=sk-...). Ignored in Git for privacy.
 
 ## Validation
 
@@ -199,17 +199,17 @@ In Python REPL (python), run: from core.embeddings.embeddings_loader import get_
 **Purpose**: Test end-to-end to ensure setup works.
 ## Steps
 
-1. Add .env (optional for classroom — leave blank for free mode)
-Run a sample in rag.py (expand as needed):
-Python
+1. Add `.env` (optional for classroom — leave blank for free mode)
+Run a sample in `rag.py` (expand as needed):
+`Python
 from core.reasoning.llm_loader import get_llm
 from core.embeddings.embeddings_loader import get_embeddings
 
 2. llm = get_llm()
 embeddings = get_embeddings()
-print("LLM and Embeddings loaded successfully!")
+print("LLM and Embeddings loaded successfully!")`
 
-3. Run: python rag.py
+3. Run: `python rag.py`
 Expect bypass messages for paid, then success
 
 
@@ -223,9 +223,9 @@ If issues, check terminal output/logs
 ## Troubleshooting
 
 Errors?
-Check API keys commented out in requirements.txt
-Ensure Ollama is running (ollama serve)
-Verify config/models.yaml exists and is valid YAML
+Check API keys commented out in `requirements.txt`
+Ensure Ollama is running (`ollama serve`)
+Verify `config/models.yaml` exists and is valid YAML
 
 ## Next Steps
 **Extend for Pro:**
@@ -234,7 +234,7 @@ Add keys to .env → system auto-detects and upgrades
 
 **Classroom Tips:**
 Explain YAML as "app settings file" — edit to experiment
-Use llm_loader.py and embeddings_loader.py as examples of smart fallback design
+Use `llm_loader.py` and `embeddings_loader.py` as examples of smart fallback design
 
 **Further Reading:**
 LangChain Docs
